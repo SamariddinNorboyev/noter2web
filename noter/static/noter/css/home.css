@@ -173,5 +173,38 @@
 
 
 .colorSelection{
-    
+    width: 100%;
+    border: 1px solid black;
+    display: grid;
+    justify-content: center;
+}
+.colorSelectionButton{
+    width: 300px;
+    font-size: larger;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #3b3c3c;
+}
+.colorSelectionOptions{
+    margin-top: 2vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border: 1px solid #3b3c3c; 
+    border-radius: 16px;
+    opacity: 0%;
+    visibility:'hidden';
+    transition: 0.4s ease-in;
+}
+.colorSelectionOption{
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+}
+.colorSelectionOption:hover{
+    background-color: #e2e2e2;
 }
