@@ -1,0 +1,172 @@
+.main{
+    width: 100%;
+    /* border: 1px solid black; */
+    display: flex;
+}
+.main .menu{
+    width: 22%;
+    height: 100vh;
+    margin-left: 0px;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    transition: 0.3s ease-in;
+}
+.button{
+    position: absolute;
+    border: 1px solid black;
+    width: 3vh;
+    height: 3vh;
+    font-size: 3vh;
+    transition: 0.3s ease-in;
+    opacity: 0%;
+    visibility: hidden;
+    margin-top: 1vh;
+    margin-left: -3vh;
+}
+
+.menu_header{
+    margin-top: 1vh;
+}
+.menu_header_header_input{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.menu_header_header_input input{
+    width: 95%;
+}
+.menu_header_header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0vh 1vh;
+}
+.menu_header_header i{
+    font-size: 3vh;
+}
+
+
+
+.menu_tasks{
+    margin-top: 1vh;
+}
+.menu_tasks_header{
+    width: 100%;
+    padding-left: 1vh;
+}
+.menu_tasks_buttons{
+    display: grid;
+    position: relative;
+}
+
+
+
+.task_button{
+    margin: 2px 10px;
+    width: 95%;
+    border: none;
+    border-radius: 1vh;
+    color: #3b3c3c;
+}
+.task_button i{
+    font-size: 3vh;
+    font-weight: normal;
+    padding: 1vh;
+}
+.ticked{
+    background-color: #edebeb;
+    font-weight: bold;
+}
+.ticked .task_button_number{
+    background-color: white;
+}
+.task_button_text{
+    float: left;
+    font-size: 2vh;
+    height: 100%;
+    display: flex;
+    align-content: center;
+}
+.task_button_number_parent{
+    height: 100%;
+    max-width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    margin-right: 2vh;
+}
+.task_button_number{
+    width: 4vh;
+    height: 3vh;
+    background-color: #edebeb;
+    border-radius: 1vh;
+    font-size: 1.5vh;
+    text-align: center;
+    align-content: center;
+}
+.task_button_text, .task_button_number{
+    display: inline;
+}
+
+
+
+
+
+.menu_list_button{
+    display: flex;
+    align-items: center;
+    color: #3b3c3c;
+    font-size: 3vh;
+    border: none;
+    background-color: transparent;
+}
+.menu_list_button:hover{
+    background-color:#e2e2e2;
+}
+.menu_list_button_text{
+    font-size: 2vh;
+}
+.i{
+    float: left;
+    margin: 1vh 2vh;
+    font-size: 3vh;
+    height: 2vh;
+    width: 2vh;
+}
+.list_href_text{
+    float: left;
+    font-size: 2vh;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #3b3c3c;
+}
+
+
+
+
+.add_list_toggle{
+    width: 40%;
+    height: 70%!important;
+    border: 1px solid black;
+    height: 100px;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    background-color: white;
+    z-index: 10;
+    border-radius: 16px;
+    display: none;
+}
+.add_list_toggle_back{
+    width: 100%;
+    height: 100%!important;
+    background-color: rgb(180, 180, 180);
+    opacity: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    opacity: 50%;
+    display: none;
+}
