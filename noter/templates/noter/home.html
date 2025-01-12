@@ -126,12 +126,20 @@
                 <input type="text" name="list_name">
                 <input type="text" name="list_color">
                 <input type="submit" value="Create List" onchange="this.form.submit()">
+                <div class="colorSelection">
+                    <div class="colorSelectionButton">
+                        
+                    </div>
+                    <div class="colorSelectionOptions">
+
+                    </div>
+                </div>
                 <select id="selectOption" name="selectOption">
                     <option value="" disabled selected>Select an option</option>
                     <option value="option1" selected>Option 1<i class="ri-add-line"></i></option>
                     <option value="option2">Option 2</option>
                     <option value="option3">Option 3</option>
-                  </select>
+                </select>
             </form>
         </div>
         <div class="add_list_toggle_back" onclick="add_list_div()">
@@ -181,6 +189,5 @@
                 menu.style.display = 'none';
             }
         }
-
     </script>
 {% endblock %}
