@@ -148,14 +148,13 @@
 .add_list_toggle{
     width: 40%;
     height: 70%!important;
-    border: 1px solid black;
     height: 100px;
     position: absolute;
     top: 15%;
     left: 30%;
     background-color: white;
     z-index: 10;
-    border-radius: 16px;
+    border-radius: 36px;
     display: none;
 }
 .add_list_toggle_back{
@@ -172,14 +171,15 @@
 }
 
 
-.colorSelection{
+.colorSeletion{
     width: 100%;
-    border: 1px solid black;
-    display: grid;
-    justify-content: center;
+    position: absolute;
 }
 .colorSelectionButton{
-    width: 300px;
+    /* width: 100%; */
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 13vh;
     font-size: larger;
     background-color: white;
     display: flex;
@@ -188,18 +188,51 @@
     padding: 2vh;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border: 1px solid #3b3c3c;
+    border: 1px solid #ccc;
+    z-index: 20;
+    background-color: white;
+    position: relative;
 }
-.colorSelectionOptions{
+.colorSelectionButtonLogo{
+    transition: transform 0.5s ease;
+}
+.colorSelection .colorSelectionOptions{
     margin-top: 2vh;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: white;
-    border: 1px solid #3b3c3c; 
+    border: 1px solid #ccc; 
     border-radius: 16px;
-    opacity: 0%;
-    visibility:'hidden';
     transition: 0.4s ease-in;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in, visibility 0.4s ease-in;
+    position: absolute;
+    z-index: 20;
+    width: 90%;
+    margin-left: 5%;
+    background-color: white;
 }
+.colorSelection .colorSelectionOptions.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.add_list_toggle .colorSelectionOptionsBack{
+    background-color: rgb(126, 126, 126);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 15;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 36px;
+}
+.add_list_toggle .colorSelectionOptionsBack.visible{
+    opacity: 50%;
+    visibility: visible;
+}
+
 .colorSelectionOption{
     display: flex;
     align-items: center;
@@ -207,4 +240,30 @@
 }
 .colorSelectionOption:hover{
     background-color: #e2e2e2;
+}
+
+
+
+.submit_list_form{
+    background-color: #ffd24d;
+    font-size: larger; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc; 
+    padding: 2vh;
+    border-radius: 16px;
+    position:absolute;
+    bottom: 3vh;
+    right: 3vh;
+}
+.submit_list_text{
+    width: 90%;
+    background-color: #ffffff;
+    font-size: larger; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc; 
+    padding: 2vh;
+    border-radius: 16px;
+    position: absolute;
+    top: 5%;
+    left: 5%;
 }

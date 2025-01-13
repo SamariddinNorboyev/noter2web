@@ -121,17 +121,21 @@
         <div class="properties"></div>
 
         <div class="add_list_toggle">
-            <form method="post" action="{% url 'noter:create-list' %}">
+            <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
                 {% csrf_token %}
-                <input type="text" name="list_name">
-                <input type="text" name="list_color">
-                <input type="submit" value="Create List" onchange="this.form.submit()">
+                <div class="colorSelectionOptionsBack" onclick="colorOpen()"></div>
+                <input type="text" name="list_name" placeholder="Name of the list" class="submit_list_text">
+                <input type="hidden" name="list_color" id="list_color">
                 <div class="colorSelection">
-                    <div class="colorSelectionButton"  onclick="colorOpen()">
-                        Select Color
+                    <div class="colorSelectionButton" onclick="colorOpen()">
+                        <u style="text-decoration: none;" class="colorSelectionButtonText">--Select Color--</u>
                         <i class="ri-arrow-down-s-line colorSelectionButtonLogo"></i>
                     </div>
                     <div class="colorSelectionOptions">
+                        <div class="colorSelectionOption">
+                            <div class="colorSelectionOptionColor" style="width: 3vh; height: 3vh; background-color: #494949; border-radius: 50%; margin:2vh;"></div>
+                            Default
+                        </div>
                         <div class="colorSelectionOption">
                             <div class="colorSelectionOptionColor" style="width: 3vh; height: 3vh; background-color: #faecc3; border-radius: 50%; margin:2vh;"></div>
                             Kasar
@@ -150,6 +154,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="button" onclick="add_list_div()" value="Cancel" class="submit_list_form" style="right: 20vh; background-color: rgb(228, 228, 228);">
+                <input type="submit" value="Create List" class="submit_list_form">
             </form>
         </div>
         <div class="add_list_toggle_back" onclick="add_list_div()">
@@ -168,7 +174,12 @@
         //         button.style.display = 'block'
         //         menu.style.width = '0'
         //     }
-        // };
+        // }
+        document.getElementById("list_form").addEventListener("submit", function(event) {
+            var content = document.getElementById("colorSelectionButtonText").innerHTML;
+
+            document.getElementById("list_color").value = content;
+        });
         function toggle() {
             const menu = document.querySelector('.menu');
             const button = document.querySelector('.button');
@@ -188,14 +199,18 @@
         }
         function colorOpen() {
             const menu = document.querySelector('.colorSelectionOptions');
-            const button = document.querySelector('.colorSelectionButton');
-            if (menu.style.opacity = '0%') {
-                menu.style.opacity = '100%';
-                menu.style.visibility = 'visible';
-            }
-            else if(menu.style.opacity = '100%'){
-                menu.style.opacity = '0%';
-                menu.style.visibility = 'hidden';
+            const back_button = document.querySelector('.colorSelectionOptionsBack')
+            const rotation_button = document.querySelector('.colorSelectionButtonLogo')
+            if (!menu.classList.contains('visible')) {
+                console.log('salom2')
+                menu.classList.add('visible');
+                back_button.classList.add('visible');
+                rotation_button.style.transform = 'rotate(180deg)'
+            } else {
+                console.log('salom1')
+                menu.classList.remove('visible');
+                back_button.classList.remove('visible');
+                rotation_button.style.transform = 'rotate(0deg)'
             }
         }
         function add_list_div() {
@@ -204,12 +219,34 @@
 
             if (menu.style.display === 'none') {
                 button.style.display = 'block';
-                menu.style.display = 'block';
+                menu.style.display = 'grid';
             }
             else {
                 button.style.display = 'none';
                 menu.style.display = 'none';
             }
+
         }
+        const colorOptions = document.querySelectorAll('.colorSelectionOption');
+        const button = document.querySelector('.colorSelectionButtonText');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const textContent = option.textContent
+                const tagText = option.querySelector('.colorSelectionOptionColor')?.textContent || '';
+                const pureText = textContent.replace(tagText, '').trim();
+
+                button.innerHTML = pureText
+
+                const menu = document.querySelector('.colorSelectionOptions');
+                menu.classList.remove('visible');
+                const back_button = document.querySelector('.colorSelectionOptionsBack')
+                back_button.classList.remove('visible');
+
+                const rotation_button = document.querySelector('.colorSelectionButtonLogo')
+                rotation_button.style.transform = 'rotate(0deg)'
+
+                button.innerHTML += j
+            });
+        });
     </script>
 {% endblock %}
