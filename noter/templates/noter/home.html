@@ -124,7 +124,7 @@
             <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
                 {% csrf_token %}
                 <div class="colorSelectionOptionsBack" onclick="colorOpen()"></div>
-                <input type="text" name="list_name" placeholder="Name of the list" class="submit_list_text">
+                <input type="text" name="list_name" placeholder="Enter List" class="submit_list_text">
                 <input type="hidden" name="list_color" id="list_color">
                 <div class="colorSelection">
                     <div class="colorSelectionButton" onclick="colorOpen()">
