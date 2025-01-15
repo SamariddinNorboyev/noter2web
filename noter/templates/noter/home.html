@@ -104,7 +104,7 @@
                 <div class="menu_tasks_buttons">
                     {% for list in lists %}
                         <a class="menu_list_button" href="{% url 'noter:lists' list.id %}">
-                            <div class="i"></div>
+                            <div class="i" style="background-color: #0e1c44;"></div>
                             <div class="list_href_text">{{list.name}}</div>
                         </a>
                     {% endfor %}
@@ -176,8 +176,8 @@
         //     }
         // }
         document.getElementById("list_form").addEventListener("submit", function(event) {
-            var content = document.getElementById("colorSelectionButtonText").innerHTML;
-
+            var content = document.querySelector(".colorSelectionButtonText").innerHTML;
+            
             document.getElementById("list_color").value = content;
         });
         function toggle() {

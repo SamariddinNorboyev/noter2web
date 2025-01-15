@@ -123,10 +123,8 @@
 .menu_list_button:hover{
     background-color:#e2e2e2;
 }
-.menu_list_button_text{
-    font-size: 2vh;
-}
 .i{
+    border-radius: 50%; 
     float: left;
     margin: 1vh 2vh;
     font-size: 3vh;
@@ -267,3 +265,6 @@
     top: 5%;
     left: 5%;
 }
+/* .colorSelectionOptionColor{
+    display: block;
+} */
