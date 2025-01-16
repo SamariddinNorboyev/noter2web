@@ -38,7 +38,7 @@
                         <input type="text" placeholder="Username" class="form-control" name="username">
                     </p>
                     <p>
-                        <input type="text" placeholder="Password" class="form-control" name="password">
+                        <input type="password" placeholder="Password" class="form-control" name="password">
                     </p>
                     <p style="float: right;">
                         <a href="">Forgot Password?</a>
@@ -47,7 +47,7 @@
                         <p>
                             <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Login" onclick="this.form.sumbit()">
                         </p>
-                        <p>Don't have an account? - <a href="{% url 'register' %}">Get Started</a></p>
+                        <p>Don't have an account? - <a href="{% url 'users:register' %}">Get Started</a></p>
                     </div>
                 </form>
             </div>

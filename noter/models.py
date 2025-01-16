@@ -3,7 +3,7 @@ from users.models import CustomUser
 
 class List(models.Model):
     name = models.CharField(max_length=15)
-    color = models.CharField(max_length=15, null=True, blank=True)
+    color = models.CharField(max_length=15, default='default')
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='lists', default=1)
 
     def __str__(self):

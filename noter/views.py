@@ -35,11 +35,16 @@ def CreateList(request):
     if request.method == 'POST':
         name = request.POST.get('list_name')
         color = request.POST.get('list_color')
+
         lists = List.objects.filter(user = request.user)
         for list in lists:
             if list.name == name:
                 messages.error(request, (f'There is a list with name {name}'))
                 return redirect('/noter/')
+        if color == '':
+            list1 = List(name = name, user = request.user)
+            list1.save()
+            return redirect('/noter/')
         list1 = List(name = name, color = color, user = request.user)
         list1.save()
         return redirect('/noter/')
