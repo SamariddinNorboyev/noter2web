@@ -95,7 +95,55 @@
 
 
         <div class="list">
-            
+            <div class="list_text">
+                <h1><b>Today</b></h1>
+                <div class="list_text_number">
+                    <h1>{{ number_of_notes }}</h1>
+                </div>
+            </div>
+            <div class="list_main">
+                <div class="list_main_notes">
+                    <div class="list_main_add">
+                        <form action="{% url 'noter:create-note' list_id %}" method="post" style="display: flex; width: 100%;">
+                            {% csrf_token %}
+                            <div class="list_main_add_button">
+                                <button type="button" class="btn btn-success">+</button>
+                            </div>
+                            <div class="list_main_add_input">
+                                <input type="text" class="form-control" placeholder="Enter text here" name="note_title">
+                            </div>
+                        </form>
+                    </div>
+                    {% for note in notes %}
+                        <div class="list_main_note">
+                            <div class="list_main_note_top">
+                                <div class="list_main_note_checkbox">
+                                    <input type="checkbox">
+                                </div>
+                                <div class="list_main_note_text">
+                                    {{note.title}}
+                                </div>
+                                <div class="list_main_note_i">
+                                    <i class="ri-arrow-drop-right-line"></i><br>
+                                </div>
+                            </div>
+                            <div class="list_main_note_bottom">
+                                {% if note.list.name != 'Today' %}
+                                    <div class="list_main_note_bottom_list">
+                                        <div class="bg-{{note.list.color}} p"></div>
+                                        {{note.list.name}}
+                                    </div>
+                                {% endif %}
+                                {% if note.end_at == today %}
+                                    <div class="list_main_note_bottom_list">
+                                    <div class="list_main_note_bottom_list_text">{{note.end_at}}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
 
@@ -146,18 +194,6 @@
         </div>
     </div>
     <script>
-        // function toggle(){
-        //     const menu = document.querySelector('.menu')
-        //     const button = document.querySelector('.button')
-        //     if (menu.style.width == '0'){
-        //         button.style.display = 'width'
-        //         menu.style.width = '22%'
-        //     }
-        //     if(menu.style.width == '22%'){
-        //         button.style.display = 'block'
-        //         menu.style.width = '0'
-        //     }
-        // }
         document.getElementById("list_form").addEventListener("submit", function(event) {
             var content = document.querySelector(".colorSelectionButtonText").innerHTML;
             if (content != "--Select Color--"){
@@ -215,16 +251,16 @@
         function add_list_div() {
             const menu = document.querySelector('.add_list_toggle');
             const button = document.querySelector('.add_list_toggle_back');
-
-            if (menu.style.display === 'none') {
+            const menuDisplay = window.getComputedStyle(menu).display
+            if (menuDisplay === 'none'){
                 button.style.display = 'block';
                 menu.style.display = 'grid';
             }
-            else {
+            else{
+                console.log('bosildi')
                 button.style.display = 'none';
                 menu.style.display = 'none';
             }
-
         }
         const colorOptions = document.querySelectorAll('.colorSelectionOption');
         const button = document.querySelector('.colorSelectionButtonText');

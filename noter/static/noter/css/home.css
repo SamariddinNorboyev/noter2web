@@ -325,3 +325,129 @@
 /* .colorSelectionOptionColor{
     display: block;
 } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main .list{
+    width: 49%;
+    border: 1px solid black;
+}
+.main .list .list_text{
+    display: flex;
+    align-items: center;
+    color: #3b3c3c;
+    width: 100%;
+    padding: 2vh;
+}
+.main .list .list_text .list_text_number{
+    width: 7vh;
+    height: 7vh;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    margin-left: 4vh;
+}
+.main .list .list_main{
+    width: 100%;
+    display: grid;
+}
+.list_main_add{
+    display: flex;
+    justify-content: center;
+    width: 92%;
+    border: 1px solid #a0a0a0;
+    border-radius: 6px;
+}
+.list_main_notes{
+    display: grid;
+    justify-items: center;
+    width: 100%;
+}
+.list_main_add_button{
+    width: 7vh;
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.list_main_add_input{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.list_main_add_input input{
+    width: 97%;
+}
+.list_main_note{
+    width:92%;
+    font-size: 2vh;
+    border-bottom:1px solid #a0a0a0;
+}
+.list_main_note_top{
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+.list_main_note_top div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.list_main_note_i,
+.list_main_note_checkbox{
+    width: 6vh;
+    height: 6vh;
+}
+.list_main_note_text{
+    height: 6vh;
+}
+.list_main_note_i{
+    font-size: 4vh;
+    margin-right: 0px;
+    position: absolute;
+    right: 0;
+}
+.list_main_note_checkbox input{
+    width: 2vh;
+    height: 2vh;
+}
+.list_main_note_bottom{
+    display: flex;
+}
+.list_main_note_bottom_list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4vh;
+    width: 20%;
+}
+.p{
+    font-size: 3vh;
+    width: 2vh;
+    height: 2vh;
+    border-radius: 50%;
+}
+.list_main_note_bottom_list_text{
+    /* margin-left: 1vh; */
+    border-right: 1px solid#a0a0a0;
+    border-left: 1px solid #a0a0a0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

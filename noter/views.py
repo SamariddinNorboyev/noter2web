@@ -5,12 +5,26 @@ import datetime
 from .models import List, Note
 from django.contrib import messages
 from django.views.decorators.cache import cache_control
+from datetime import date
 
 @login_required
 def Home(request):
     # if request.method == 'POST':
-    lists = List.objects.filter(user = request.user)
-    return render(request, 'noter/home.html', {'lists': lists})
+    ulists = List.objects.filter(user = request.user)
+    lists = []
+    list_id = 0
+    for list in ulists:
+        if list.name != "Today":
+            lists.append(list)
+        if list.name == "Today":
+            list_id = list.id
+    unotes = Note.objects.filter(user = request.user)
+    notes = []
+    today = date.today()
+    for note in unotes:
+        if note.deadline == today:
+            notes.append(note)
+    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes , 'list_id': list_id, 'today': date.today()})
     
 @login_required
 def Upcoming(request):
@@ -35,7 +49,6 @@ def CreateList(request):
     if request.method == 'POST':
         name = request.POST.get('list_name')
         color = request.POST.get('list_color')
-
         lists = List.objects.filter(user = request.user)
         for list in lists:
             if list.name == name:
@@ -65,10 +78,19 @@ def CreateNote(request, list_id):
         title = request.POST.get('note_title')
         description = request.POST.get('note_description')
         list1 = List.objects.get(id = list_id)
-        note1 = Note(title = title, description = description, list = list1)
+        note_data = {
+            "title": title,
+            "list": list1,
+            "user": request.user,
+            "deadline": date.today()
+        }
+        if description is not None:
+            note_data["description"] = description
+        note1 = Note.objects.create(**note_data)
+        note1 = Note(title = title, description = description, list = list1, user = request.user)
         note1.save()
         return redirect(f'/noter/lists/{list_id}')
-    
+
 @login_required
 def do(request, list_id, note_id):
     note = Note.objects.get(id=note_id)

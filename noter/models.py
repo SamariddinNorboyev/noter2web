@@ -10,14 +10,15 @@ class List(models.Model):
         return self.name
 
 class Note(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True, default=None)
+    title = models.CharField(max_length=100, null=False, blank=False)
+    description = models.TextField(blank=True, default=None, null=True)
     status = models.BooleanField(default=False)
     created_at = models.CharField(max_length=20)
     start_at = models.DateField(null=True, blank=True)
     end_at = models.DateField(null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='notes', default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.title
@@ -26,6 +27,8 @@ class Note(models.Model):
 #     title = models.CharField(max_length=200)
 #     status = models.BooleanField(default=False)
 #     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name='subnotes', null=True, blank=True)
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+
 
 #     def __str__(self):
 #         return self.title
