@@ -98,7 +98,7 @@
             <div class="list_text">
                 <h1><b>Today</b></h1>
                 <div class="list_text_number">
-                    <h1>{{ number_of_notes }}</h1>
+                    <b>{{ number_of_notes }}</b>
                 </div>
             </div>
             <div class="list_main">
@@ -107,7 +107,8 @@
                         <form action="{% url 'noter:create-note' list_id %}" method="post" style="display: flex; width: 100%;">
                             {% csrf_token %}
                             <div class="list_main_add_button">
-                                <button type="button" class="btn btn-success">+</button>
+                                <!-- <button type="button" class="btn" style="font-size: 3vh; padding: 0; width: 3vh; height: 3vh;">+</button> -->
+                                <input type="button" value="+" class="list_main_add_button_button" onclick="add_note_div()">
                             </div>
                             <div class="list_main_add_input">
                                 <input type="text" class="form-control" placeholder="Enter text here" name="note_title">
@@ -124,7 +125,8 @@
                                     {{note.title}}
                                 </div>
                                 <div class="list_main_note_i">
-                                    <i class="ri-arrow-drop-right-line"></i><br>
+                                    <!-- <i class="ri-arrow-drop-right-line"></i><br> -->
+                                    <i class="ri-arrow-right-s-line"></i>
                                 </div>
                             </div>
                             <div class="list_main_note_bottom">
@@ -155,7 +157,7 @@
             <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
                 {% csrf_token %}
                 <div class="colorSelectionOptionsBack" onclick="colorOpen()"></div>
-                <input type="text" name="list_name" placeholder="Enter List" class="submit_list_text">
+                <input type="text" name="list_name" placeholder="Enter List Name" class="submit_list_text">
                 <input type="hidden" name="list_color" id="list_color">
                 <div class="colorSelection">
                     <div class="colorSelectionButton" onclick="colorOpen()">
@@ -192,6 +194,13 @@
         <div class="add_list_toggle_back" onclick="add_list_div()">
 
         </div>
+        <div class="add_note_toggle">
+            <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
+                {% csrf_token %}
+                <button>adfad</button>
+            </form>
+        </div>
+        <div class="add_note_toggle_back" onclick="add_note_div()"></div>
     </div>
     <script>
         document.getElementById("list_form").addEventListener("submit", function(event) {
@@ -251,6 +260,20 @@
         function add_list_div() {
             const menu = document.querySelector('.add_list_toggle');
             const button = document.querySelector('.add_list_toggle_back');
+            const menuDisplay = window.getComputedStyle(menu).display
+            if (menuDisplay === 'none'){
+                button.style.display = 'block';
+                menu.style.display = 'grid';
+            }
+            else{
+                console.log('bosildi')
+                button.style.display = 'none';
+                menu.style.display = 'none';
+            }
+        }
+        function add_note_div() {
+            const menu = document.querySelector('.add_note_toggle');
+            const button = document.querySelector('.add_note_toggle_back');
             const menuDisplay = window.getComputedStyle(menu).display
             if (menuDisplay === 'none'){
                 button.style.display = 'block';
