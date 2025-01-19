@@ -197,7 +197,20 @@
         <div class="add_note_toggle">
             <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
                 {% csrf_token %}
-                <button>adfad</button>
+                Title:
+                <input type="text" placeholder="Enter Title" name="note_title" required>
+                Description:
+                <textarea name="text_input" placeholder="Type something..." rows="4" cols="50"></textarea>
+                List:
+                <select name="" id="">
+                    <option value="a">A</option>
+                </select>
+                Starts at:
+                <input type="datetime-local" id="datetime" name="start_at">
+                Ends at:
+                <input type="datetime-local" id="datetime" name="end_at">
+                Deadline:
+                <input type="datetime-local" id="datetime" name="deadline">
             </form>
         </div>
         <div class="add_note_toggle_back" onclick="add_note_div()"></div>

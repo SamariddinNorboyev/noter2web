@@ -358,6 +358,9 @@
     width: 49%;
     border: 1px solid black;
 }
+.list_form{
+    display: grid;
+}
 .main .list .list_text{
     display: flex;
     align-items: center;
