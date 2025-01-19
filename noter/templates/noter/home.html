@@ -104,33 +104,36 @@
             <div class="list_main">
                 <div class="list_main_notes">
                     <div class="list_main_add">
-                        <form action="{% url 'noter:create-note' list_id %}" method="post" style="display: flex; width: 100%;">
+                        <form action="{% url 'noter:create-note' %}" method="post" style="display: flex; width: 100%;">
                             {% csrf_token %}
                             <div class="list_main_add_button">
-                                <!-- <button type="button" class="btn" style="font-size: 3vh; padding: 0; width: 3vh; height: 3vh;">+</button> -->
                                 <input type="button" value="+" class="list_main_add_button_button" onclick="add_note_div()">
                             </div>
                             <div class="list_main_add_input">
-                                <input type="text" class="form-control" placeholder="Enter text here" name="note_title">
+                                <input type="text" class="form-control" placeholder="Enter text here" name="title_input">
                             </div>
                         </form>
                     </div>
+                    
+                    {{today}}
+                    {{notes}}
                     {% for note in notes %}
                         <div class="list_main_note">
                             <div class="list_main_note_top">
                                 <div class="list_main_note_checkbox">
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="do_note">
                                 </div>
                                 <div class="list_main_note_text">
-                                    {{note.title}}
+                                    <label for="do_note" style="margin: 0;">
+                                        {{note.title}}
+                                    </label>
                                 </div>
                                 <div class="list_main_note_i">
-                                    <!-- <i class="ri-arrow-drop-right-line"></i><br> -->
                                     <i class="ri-arrow-right-s-line"></i>
                                 </div>
                             </div>
                             <div class="list_main_note_bottom">
-                                {% if note.list.name != 'Today' %}
+                                {% if note.list != None %}
                                     <div class="list_main_note_bottom_list">
                                         <div class="bg-{{note.list.color}} p"></div>
                                         {{note.list.name}}
@@ -191,27 +194,45 @@
                 <input type="submit" value="Create List" class="submit_list_form">
             </form>
         </div>
-        <div class="add_list_toggle_back" onclick="add_list_div()">
-
-        </div>
+        <div class="add_list_toggle_back" onclick="add_list_div()"></div>
         <div class="add_note_toggle">
-            <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
-                {% csrf_token %}
-                Title:
-                <input type="text" placeholder="Enter Title" name="note_title" required>
-                Description:
-                <textarea name="text_input" placeholder="Type something..." rows="4" cols="50"></textarea>
-                List:
-                <select name="" id="">
-                    <option value="a">A</option>
-                </select>
-                Starts at:
-                <input type="datetime-local" id="datetime" name="start_at">
-                Ends at:
-                <input type="datetime-local" id="datetime" name="end_at">
-                Deadline:
-                <input type="datetime-local" id="datetime" name="deadline">
-            </form>
+            <div class="card-body">
+                <form action="{% url 'noter:create-note' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="title_input" class="form-label">Title</label>
+                        <input type="text" name="title_input" class="form-control fw-bold" id="title_input" placeholder="Enter Title Here" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description_input" class="form-label">Description</label>
+                        <textarea type="text" name="description_input" class="form-control fw-bold" id="description_input" rows="4" placeholder="Type something..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="select_input" class="form-label">Title</label>
+                        <select class="form-select" id="select_input" name="select_input">
+                            <option value="">Today</option>
+                            {% for list in lists %}
+                                <option value="{{list.id}}">{{list.id}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_input" class="form-labal">Title</label>
+                        <input type="datetime-local" if="start_input" class="form-control" name="start_at">
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_input" class="form-labal">Title</label>
+                        <input type="datetime-local" if="end_input" class="form-control" name="end_at">
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline_input" class="form-labal">Title</label>
+                        <input type="datetime-local" if="deadline_input" class="form-control" name="deadline_at">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-warning bg-log" style="position: absolute; bottom: 1.25rem; right: 3.25rem;">Create</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="add_note_toggle_back" onclick="add_note_div()"></div>
     </div>

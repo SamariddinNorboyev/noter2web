@@ -17,7 +17,7 @@ class Note(models.Model):
     start_at = models.DateField(null=True, blank=True)
     end_at = models.DateField(null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
-    list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='notes', default=1)
+    list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='notes', null=True, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
 
     def __str__(self):

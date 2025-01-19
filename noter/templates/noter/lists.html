@@ -11,14 +11,6 @@
     Assalomu alaykum {{name}}
 
 
-    <form method="post" action="{% url 'noter:create-note' list_id %}">
-        {% csrf_token %}
-        <input type="text" name="note_title">
-        <input type="text" name="note_description">
-        <input type="submit" value="Create Note" onchange="this.form.submit()">
-    </form>
-
-
     <h1>Bajarilmagan</h1>
     {% for undone in undone_notes %}
         <form method="post" action="{% url 'noter:do' list_id undone.id %}">

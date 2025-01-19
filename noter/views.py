@@ -5,7 +5,7 @@ import datetime
 from .models import List, Note
 from django.contrib import messages
 from django.views.decorators.cache import cache_control
-from datetime import date
+from datetime import date, datetime
 
 @login_required
 def Home(request):
@@ -22,9 +22,9 @@ def Home(request):
     notes = []
     today = date.today()
     for note in unotes:
-        if note.deadline == today:
+        if note.end_at == today:
             notes.append(note)
-    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes , 'list_id': list_id, 'today': date.today()})
+    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes , 'list_id': list_id, 'today': today})
     
 @login_required
 def Upcoming(request):
@@ -73,23 +73,53 @@ def ShowList(request, list_id):
     
 #note
 @login_required
-def CreateNote(request, list_id):
+def CreateNote(request):
     if request.method == 'POST':
-        title = request.POST.get('note_title')
-        description = request.POST.get('note_description')
-        list1 = List.objects.get(id = list_id)
+        title = request.POST.get('title_input')
+        create_at = datetime.now()
+        user = request.user
+        description = None
+        list1 = None
+        start_at = None
+        end_at = None
+        deadline_at = None
+
+        description_text = request.POST.get('description_input')
+        if description_text:
+            description = description_text
+
+        list_id = request.POST.get('select_input')
+        if list_id:
+            list1 = List.objects.get(id=list_id)
+
+        datetime_str = request.POST.get('start_at')
+        if datetime_str:
+            start_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+
+        datetime_str = request.POST.get('end_at')
+        if datetime_str:
+            end_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+        else:
+            end_at = datetime.now()
+
+        datetime_str = request.POST.get('deadline_at')
+        if datetime_str:
+            deadline_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+
         note_data = {
             "title": title,
-            "list": list1,
             "user": request.user,
-            "deadline": date.today()
+            "created_at": create_at,
+            "start_at": start_at,
+            "end_at": end_at,
+            "deadline": deadline_at,
+            "list": list1,
+            "user": user,
+            "description": description
         }
-        if description is not None:
-            note_data["description"] = description
         note1 = Note.objects.create(**note_data)
-        note1 = Note(title = title, description = description, list = list1, user = request.user)
         note1.save()
-        return redirect(f'/noter/lists/{list_id}')
+        return redirect(reverse('noter:home'))
 
 @login_required
 def do(request, list_id, note_id):
