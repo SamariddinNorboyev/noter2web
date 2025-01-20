@@ -22,7 +22,7 @@ def Home(request):
     notes = []
     today = date.today()
     for note in unotes:
-        if note.end_at == today:
+        if note.end_at <= today:
             notes.append(note)
     return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes , 'list_id': list_id, 'today': today})
     

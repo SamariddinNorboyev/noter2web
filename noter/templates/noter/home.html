@@ -115,37 +115,37 @@
                         </form>
                     </div>
                     
-                    {{today}}
-                    {{notes}}
                     {% for note in notes %}
-                        <div class="list_main_note">
-                            <div class="list_main_note_top">
-                                <div class="list_main_note_checkbox">
-                                    <input type="checkbox" id="do_note">
+                        <form action="{url 'noter:do' note.id}" method="post">
+                            <div class="list_main_note">
+                                <div class="list_main_note_top">
+                                    <div class="list_main_note_checkbox">
+                                        <input type="checkbox" id="do_note">
+                                    </div>
+                                    <div class="list_main_note_text">
+                                        <label for="do_note" style="margin: 0;">
+                                            {{note.title}}
+                                        </label>
+                                    </div>
+                                    <div class="list_main_note_i">
+                                        <i class="ri-arrow-right-s-line"></i>
+                                    </div>
                                 </div>
-                                <div class="list_main_note_text">
-                                    <label for="do_note" style="margin: 0;">
-                                        {{note.title}}
-                                    </label>
-                                </div>
-                                <div class="list_main_note_i">
-                                    <i class="ri-arrow-right-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="list_main_note_bottom">
-                                {% if note.list != None %}
+                                <div class="list_main_note_bottom">
+                                    {% if note.list != None %}
                                     <div class="list_main_note_bottom_list">
                                         <div class="bg-{{note.list.color}} p"></div>
                                         {{note.list.name}}
                                     </div>
-                                {% endif %}
-                                {% if note.end_at == today %}
+                                    {% endif %}
+                                    {% if note.deadline == today %}
                                     <div class="list_main_note_bottom_list">
-                                    <div class="list_main_note_bottom_list_text">{{note.end_at}}</div>
+                                        <div class="list_main_note_bottom_list_text">{{note.end_at}}</div>
                                     </div>
-                                {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     {% endfor %}
                 </div>
             </div>
@@ -200,32 +200,34 @@
                 <form action="{% url 'noter:create-note' %}" method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="title_input" class="form-label">Title</label>
+                        <label for="title_input" class="form-label">Title:</label>
                         <input type="text" name="title_input" class="form-control fw-bold" id="title_input" placeholder="Enter Title Here" required>
                     </div>
                     <div class="mb-3">
-                        <label for="description_input" class="form-label">Description</label>
+                        <label for="description_input" class="form-label">Description:</label>
                         <textarea type="text" name="description_input" class="form-control fw-bold" id="description_input" rows="4" placeholder="Type something..."></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="select_input" class="form-label">Title</label>
-                        <select class="form-select" id="select_input" name="select_input">
+                        <label for="select_input" class="form-label">List:</label>
+                        <select name="select_input" id="">
                             <option value="">Today</option>
                             {% for list in lists %}
-                                <option value="{{list.id}}">{{list.id}}</option>
+                                <option value="{{ list.id }}">
+                                    {{ list.name }}
+                                </option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="start_input" class="form-labal">Title</label>
+                        <label for="start_input" class="form-label">Start at:</label>
                         <input type="datetime-local" if="start_input" class="form-control" name="start_at">
                     </div>
                     <div class="mb-3">
-                        <label for="end_input" class="form-labal">Title</label>
+                        <label for="end_input" class="form-label">End at:</label>
                         <input type="datetime-local" if="end_input" class="form-control" name="end_at">
                     </div>
                     <div class="mb-3">
-                        <label for="deadline_input" class="form-labal">Title</label>
+                        <label for="deadline_input" class="form-label">Deadline:</label>
                         <input type="datetime-local" if="deadline_input" class="form-control" name="deadline_at">
                     </div>
                     <div class="mb-3">
@@ -340,5 +342,19 @@
                 button.innerHTML += j
             });
         });
+        function select_list_for_note(){
+            const menu = document.querySelector('.add_note_toggle_for');
+            const button = document.querySelector('.add_note_toggle_for_list_back');
+            // const menuDisplay = window.getComputedStyle(menu).display
+            if (menu.style.display === 'none'){
+                button.style.display = 'block';
+                menu.style.display = 'grid';
+            }
+            else{
+                console.log('bosildi')
+                button.style.display = 'none';
+                menu.style.display = 'none';
+            }
+        }
     </script>
 {% endblock %}

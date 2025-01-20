@@ -13,5 +13,5 @@ urlpatterns = [
 
 
     path('create-note/', views.CreateNote, name='create-note'),
-    path('lists/<int:list_id>/do/<int:note_id>/', views.do, name='do'),
+    path('do/<int:note_id>/', views.do, name='do'),
 ]
