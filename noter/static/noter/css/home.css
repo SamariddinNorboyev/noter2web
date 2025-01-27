@@ -15,7 +15,7 @@
 .menu_footer{
     position: absolute;
     bottom: 0;
-    display: flex;
+    display: grid;
     align-items: center;
     width: 100%;
 }
@@ -350,11 +350,11 @@
 
 .main .list{
     width: 49%;
-    border: 1px solid black;
+    height: 100vh;
+    overflow: hidden;
 }
 .main .list .list_text{
     display: flex;
-    align-items: center;
     color: #3b3c3c;
     width: 100%;
     padding: 2vh;
@@ -372,6 +372,8 @@
 }
 .main .list .list_main{
     width: 100%;
+    height: 100%;
+    overflow: auto;
     display: grid;
 }
 .list_main_add{
@@ -382,9 +384,7 @@
     border-radius: 3px;
 }
 .list_main_notes{
-    display: grid;
     justify-items: center;
-    width: 100%;
 }
 .list_main_add_button{
     width: 7vh;
@@ -423,15 +423,26 @@
     width: 97%;
 }
 .list_main_note{
-    width:92%;
     font-size: 2vh;
     border-bottom:1px solid #a0a0a0;
+    display: grid;
 }
 .list_main_note_top{
     width: 100%;
-    position: relative;
     display: flex;
 }
+
+.click_form_div{
+    width: 92%;
+}
+.list_main_note_form{
+    position: relative;
+}
+
+.list_main_note_form:hover{
+    background-color: #e2e2e2;
+}
+
 .list_main_note_top div{
     display: flex;
     justify-content: center;
@@ -450,6 +461,7 @@
     margin-right: 0px;
     position: absolute;
     right: 0;
+    float: right;
 }
 .list_main_note_checkbox input{
     width: 2vh;
@@ -478,4 +490,42 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.properties{
+    width: 29%;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+.note_properties{
+    position: relative; 
+    height: 100%;
+    display: none;
+}
+.note_properties p{
+    margin: 1vh;
+}
+.note_properties h1{
+    margin: 2vh 0vh 0vh 2vh;
+}
+.note_properties_footer{
+    display: flex;
+    position: absolute;
+    bottom: 2vh;
+    left: 1vh;
+}
+.note_properties_footer form{
+    margin: 0.5vh;
 }

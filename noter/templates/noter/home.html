@@ -46,7 +46,9 @@
                         <i class="ri-check-double-line task_button_text"></i>
                         <div class="task_button_text">Today</div>
                         <div class="task_button_number_parent">
-                            <div class="task_button_number">12</div>
+                            <div class="task_button_number">
+                                <b>{{ number_of_notes }}</b>
+                            </div>
                         </div>
                     </a>
 
@@ -87,6 +89,9 @@
                 </div>
             </div>
             <div class="menu_footer">
+                <a class="menu_footer_logout" href="{% url 'noter:history' %}">
+                    <i class="ri-history-line"></i>History
+                </a>
                 <a class="menu_footer_logout" href="{% url 'users:logout' %}">
                     <i class="ri-logout-box-line"></i>Logout
                 </a>
@@ -114,38 +119,40 @@
                             </div>
                         </form>
                     </div>
-                    
                     {% for note in notes %}
-                        <form action="{url 'noter:do' note.id}" method="post">
-                            <div class="list_main_note">
-                                <div class="list_main_note_top">
-                                    <div class="list_main_note_checkbox">
-                                        <input type="checkbox" id="do_note">
+                        <div class="click_form_div" data-id="{{ note.id }}">
+                            <form action="{% url 'noter:do' note.id %}" method="post" class="list_main_note_form">
+                                {% csrf_token %}
+                                <div class="list_main_note">
+                                    <div class="list_main_note_top">
+                                        <div class="list_main_note_checkbox">
+                                            <input type="checkbox" id="do_note" onchange="this.form.submit()">
+                                        </div>
+                                        <div class="list_main_note_text">
+                                            <label for="do_note" style="margin: 0;">
+                                                {{note.title}}
+                                            </label>
+                                        </div>
+                                        <div class="list_main_note_i">
+                                            <i class="ri-arrow-right-s-line"></i>
+                                        </div>
                                     </div>
-                                    <div class="list_main_note_text">
-                                        <label for="do_note" style="margin: 0;">
-                                            {{note.title}}
-                                        </label>
-                                    </div>
-                                    <div class="list_main_note_i">
-                                        <i class="ri-arrow-right-s-line"></i>
+                                    <div class="list_main_note_bottom">
+                                        {% if note.list != None %}
+                                        <div class="list_main_note_bottom_list">
+                                            <div class="bg-{{note.list.color}} p"></div>
+                                            {{note.list.name}}
+                                        </div>
+                                        {% endif %}
+                                        {% if note.end_at == today %}
+                                        <div class="list_main_note_bottom_list">
+                                            <div class="list_main_note_bottom_list_text">{{note.end_at}}</div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="list_main_note_bottom">
-                                    {% if note.list != None %}
-                                    <div class="list_main_note_bottom_list">
-                                        <div class="bg-{{note.list.color}} p"></div>
-                                        {{note.list.name}}
-                                    </div>
-                                    {% endif %}
-                                    {% if note.deadline == today %}
-                                    <div class="list_main_note_bottom_list">
-                                        <div class="list_main_note_bottom_list_text">{{note.end_at}}</div>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
@@ -153,7 +160,111 @@
 
 
         <div class="properties">
-            
+            {% for note in notes %}
+                <div class="note_properties" id="i{{note.id}}">
+                    <h1>Task:</h1>
+
+
+
+                    <p>
+                        Name:
+                        <input type="text" value="{{note.title}}">
+                    </p>
+
+
+                    
+                    <p>
+                        ID:
+                        <b>#{{note.id}}</b>
+                    </p>
+
+
+                    <p>
+                        Description:
+                        {% if note.description %}
+                            <input type="text" value="{{note.description}}">
+                        {% endif %}
+                        {% if note.description == "" %}
+                            <input type="text" placeholder="Add description...">
+                        {% endif %}
+                    </p>
+
+
+                    <p>
+                        Created at:
+                        <b>{{note.created_at}}</b>
+                    </p>
+
+
+                    <p>
+                        Start at:
+                        {% if note.start_at %}
+                            <input type="datetime-local" value="{{ note.start_at }}">
+                        {% endif %}
+                        {% if note.start_at == None %}
+                            <input type="datetime-local">
+                        {% endif %}
+                    </p>
+
+
+                    <p>
+                        End at:
+                        {% if note.end_at %}
+                            <input type="datetime-local" value="{{  note.end_at  }}">
+                        {% endif %}
+                        {% if note.end_at == None %}
+                            <input type="datetime-local">
+                        {% endif %}
+                    </p>
+
+
+                    <p>
+                        Deadline:
+                        {% if note.deadline %}
+                            <input type="datetime-local" value="{{  note.deadline  }}">
+                        {% endif %}
+                        {% if note.deadline == None %}
+                            <input type="datetime-local">
+                        {% endif %}
+                    </p>
+
+
+                    <p>
+                        List:
+                        <select name="" id="">
+                            <option value="">
+                                {% if note.list.name == None %}
+                                    Today
+                                {% endif %}
+                                {% if note.list.name != None %}
+                                    {{note.list.name}}
+                                {% endif %}
+                            </option>
+                            {% for list in lists %}
+                                {% if note.list.name == list.name %}
+                                {% else %}
+                                    <option value="">{{ list.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+
+                    <div class="note_properties_footer">
+                        <form action="{% url 'noter:delete' note.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="button" onclick="this.form.submit()" class="btn btn-danger" value="Delete task!">
+                        </form>    
+                        <form action="{% url 'noter:do' note.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="Button" onclick="this.form.submit()" value="Mark as done" class="btn btn-success">
+                        </form>
+                        <form action="">
+                            {% csrf_token %}
+                            <input type="button" class="btn btn-warning" value="Save changes!">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 
         <div class="add_list_toggle">
@@ -356,5 +467,20 @@
                 menu.style.display = 'none';
             }
         }
+
+        let elements = document.querySelectorAll('.click_form_div');
+        elements.forEach((element) => {
+            element.addEventListener('click', ()=>{
+                id = element.getAttribute('data-id')
+                others = document.querySelectorAll('.note_properties')
+                others.forEach((other)=>{
+                    other.style.display = 'none'
+                })
+                let property = document.getElementById(`i${id}`);
+                if (property) {
+                    property.style.display = 'block';
+                }
+            })
+        })
     </script>
 {% endblock %}

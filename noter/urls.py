@@ -6,6 +6,7 @@ urlpatterns = [
     path('upcoming/', views.Upcoming, name='upcoming'),
     path('sticky-wall/', views.StickyWall, name='sticky-wall'),
     path('calendar/', views.Calendar, name='calendar'),
+    path('history/', views.History, name='history'),
 
 
     path('create-list/', views.CreateList, name='create-list'),
@@ -14,4 +15,5 @@ urlpatterns = [
 
     path('create-note/', views.CreateNote, name='create-note'),
     path('do/<int:note_id>/', views.do, name='do'),
+    path('delete/<int:note_id>/', views.delete, name='delete'),
 ]

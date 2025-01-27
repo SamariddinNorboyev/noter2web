@@ -22,9 +22,23 @@ def Home(request):
     notes = []
     today = date.today()
     for note in unotes:
-        if note.end_at <= today:
+        if note.end_at <= today and note.status == False:
             notes.append(note)
-    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes , 'list_id': list_id, 'today': today})
+
+    formatted_notes = []
+
+    for event in notes:
+        formatted_start_at = event.start_at.strftime('%Y-%m-%dT%H:%M') if event.start_at else None
+        formatted_end_at = event.end_at.strftime('%Y-%m-%dT%H:%M') if event.end_at else None
+        formatted_deadline = event.deadline.strftime('%Y-%m-%dT%H:%M') if event.deadline else None
+        
+        formatted_notes.append({
+            'event': event,
+            'formatted_start_at': formatted_start_at,
+            'formatted_end_at': formatted_end_at,
+            'formatted_deadline': formatted_deadline,
+        })
+    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(formatted_notes), 'notes':formatted_notes , 'list_id': list_id, 'today': today})
     
 @login_required
 def Upcoming(request):
@@ -122,21 +136,20 @@ def CreateNote(request):
         return redirect(reverse('noter:home'))
 
 @login_required
-def do(request, list_id, note_id):
+def do(request, note_id):
     note = Note.objects.get(id=note_id)
     if request.method == 'POST':
         note.status = not note.status
         note.save()
-        return redirect(f'/noter/lists/{list_id}')
+        return redirect(f'noter:home')
+    
+@login_required
+def delete(request, note_id):
+    note = Note.objects.get(id=note_id)
+    if request.method == 'POST':
+       note.delete()
+    return redirect(f'noter:home')
 
-
-        # return redirect('noter:lists', list_id=list_id)
-
-
-        # response = redirect('noter:lists', list_id=list_id)
-        # response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        # response['Pragma'] = 'no-cache'
-        # return response
-
-        # url = reverse('noter:lists', kwargs={'list_id': list_id})
-        # return redirect(url)
+@login_required
+def History(request):
+    return render(request, 'noter/history.html')
