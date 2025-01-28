@@ -129,9 +129,7 @@
                                             <input type="checkbox" id="do_note" onchange="this.form.submit()">
                                         </div>
                                         <div class="list_main_note_text">
-                                            <label for="do_note" style="margin: 0;">
-                                                {{note.title}}
-                                            </label>
+                                            {{note.title}}
                                         </div>
                                         <div class="list_main_note_i">
                                             <i class="ri-arrow-right-s-line"></i>
@@ -162,107 +160,108 @@
         <div class="properties">
             {% for note in notes %}
                 <div class="note_properties" id="i{{note.id}}">
-                    <h1>Task:</h1>
-
-
-
-                    <p>
-                        Name:
-                        <input type="text" value="{{note.title}}">
-                    </p>
-
-
                     
-                    <p>
-                        ID:
-                        <b>#{{note.id}}</b>
-                    </p>
+                    <form  method="post" action="{% url 'noter:update' note.id %}">
+                        {% csrf_token %}
+                        <h1>Task:</h1>
 
 
-                    <p>
-                        Description:
-                        {% if note.description %}
-                            <input type="text" value="{{note.description}}">
-                        {% endif %}
-                        {% if note.description == "" %}
-                            <input type="text" placeholder="Add description...">
-                        {% endif %}
-                    </p>
+
+                        <p>
+                            Name:
+                            <input type="text" value="{{note.title}}" name="u_name">
+                        </p>
 
 
-                    <p>
-                        Created at:
-                        <b>{{note.created_at}}</b>
-                    </p>
+                        
+                        <p>
+                            ID:
+                            <b>#{{note.id}}</b>
+                        </p>
 
 
-                    <p>
-                        Start at:
-                        {% if note.start_at %}
-                            <input type="datetime-local" value="{{ note.start_at }}">
-                        {% endif %}
-                        {% if note.start_at == None %}
-                            <input type="datetime-local">
-                        {% endif %}
-                    </p>
+                        <p>
+                            Description:
+                            {% if note.description %}
+                                <input type="text" value="{{note.description}}" name="u_description">
+                            {% endif %}
+                            {% if note.description == "" %}
+                                <input type="text" placeholder="Add description..." name="u_description">
+                            {% endif %}
+                        </p>
 
 
-                    <p>
-                        End at:
-                        {% if note.end_at %}
-                            <input type="datetime-local" value="{{  note.end_at  }}">
-                        {% endif %}
-                        {% if note.end_at == None %}
-                            <input type="datetime-local">
-                        {% endif %}
-                    </p>
+                        <p>
+                            Created at:
+                            <b>{{note.created_at}}</b>
+                        </p>
 
 
-                    <p>
-                        Deadline:
-                        {% if note.deadline %}
-                            <input type="datetime-local" value="{{  note.deadline  }}">
-                        {% endif %}
-                        {% if note.deadline == None %}
-                            <input type="datetime-local">
-                        {% endif %}
-                    </p>
+                        <p>
+                            Start at:
+                            {% if note.start_at %}
+                                <input type="datetime-local" value="{{ note.start_at }}" name="u_start_at">
+                            {% endif %}
+                            {% if note.start_at == None %}
+                                <input type="datetime-local" name="u_start_at">
+                            {% endif %}
+                        </p>
 
 
-                    <p>
-                        List:
-                        <select name="" id="">
-                            <option value="">
-                                {% if note.list.name == None %}
-                                    Today
-                                {% endif %}
-                                {% if note.list.name != None %}
-                                    {{note.list.name}}
-                                {% endif %}
-                            </option>
-                            {% for list in lists %}
-                                {% if note.list.name == list.name %}
-                                {% else %}
-                                    <option value="">{{ list.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </p>
+                        <p>
+                            End at:
+                            {% if note.end_at %}
+                                <input type="datetime-local" value="{{ note.end_at }}" name="u_end_at">
+                            {% endif %}
+                            {% if note.end_at == None %}
+                                <input type="datetime-local" name="u_end_at">
+                            {% endif %}
+                        </p>
 
-                    <div class="note_properties_footer">
-                        <form action="{% url 'noter:delete' note.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="button" onclick="this.form.submit()" class="btn btn-danger" value="Delete task!">
-                        </form>    
-                        <form action="{% url 'noter:do' note.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="Button" onclick="this.form.submit()" value="Mark as done" class="btn btn-success">
-                        </form>
-                        <form action="">
-                            {% csrf_token %}
-                            <input type="button" class="btn btn-warning" value="Save changes!">
-                        </form>
-                    </div>
+
+                        <p>
+                            Deadline:
+                            {% if note.deadline %}
+                                <input type="datetime-local" value="{{  note.deadline  }}" name="u_deadline">
+                            {% endif %}
+                            {% if note.deadline == None %}
+                                <input type="datetime-local" name="u_deadline">
+                            {% endif %}
+                        </p>
+
+
+                        <p>
+                            List:
+                            <select name="u_list_id" id="">
+                                <option value="">
+                                    {% if note.list.name == None %}
+                                        Today
+                                    {% endif %}
+                                    {% if note.list.name != None %}
+                                        {{note.list.name}}
+                                    {% endif %}
+                                </option>
+                                {% for list in lists %}
+                                    {% if note.list.name == list.name %}
+                                    {% else %}
+                                        <option value="{{ list.id }}">{{ list.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </p>
+
+                        
+                            <input type="button" class="btn btn-warning" value="Save changes!" style="margin: 2vh 0vh 0vh 2vh;" onclick="this.form.submit()">
+                    </form>
+
+                    <form action="{% url 'noter:delete' note.id %}" method="post" style="margin: 2vh;">
+                        {% csrf_token %}
+                        <input type="button" onclick="this.form.submit()" class="btn btn-danger" value="Delete task!">
+                    </form>    
+                    <form action="{% url 'noter:do' note.id %}" method="post" style="margin: 2vh;">
+                        {% csrf_token %}
+                        <input type="Button" onclick="this.form.submit()" value="Mark as done" class="btn btn-success">
+                    </form>
                 </div>
             {% endfor %}
         </div>

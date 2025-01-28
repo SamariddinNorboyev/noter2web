@@ -15,5 +15,6 @@ urlpatterns = [
 
     path('create-note/', views.CreateNote, name='create-note'),
     path('do/<int:note_id>/', views.do, name='do'),
+    path('update/<int:note_id>/', views.update, name='update'),
     path('delete/<int:note_id>/', views.delete, name='delete'),
 ]

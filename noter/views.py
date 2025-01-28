@@ -23,22 +23,15 @@ def Home(request):
     today = date.today()
     for note in unotes:
         if note.end_at <= today and note.status == False:
+            if note.end_at:
+                note.end_at = note.end_at.strftime('%Y-%m-%dT%H:%M')
+            if note.start_at:
+                note.start_at = note.start_at.strftime('%Y-%m-%dT%H:%M')
+            if note.deadline:
+                note.deadline = note.deadline.strftime('%Y-%m-%dT%H:%M')
             notes.append(note)
 
-    formatted_notes = []
-
-    for event in notes:
-        formatted_start_at = event.start_at.strftime('%Y-%m-%dT%H:%M') if event.start_at else None
-        formatted_end_at = event.end_at.strftime('%Y-%m-%dT%H:%M') if event.end_at else None
-        formatted_deadline = event.deadline.strftime('%Y-%m-%dT%H:%M') if event.deadline else None
-        
-        formatted_notes.append({
-            'event': event,
-            'formatted_start_at': formatted_start_at,
-            'formatted_end_at': formatted_end_at,
-            'formatted_deadline': formatted_deadline,
-        })
-    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(formatted_notes), 'notes':formatted_notes , 'list_id': list_id, 'today': today})
+    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes, 'list_id': list_id, 'today': today})
     
 @login_required
 def Upcoming(request):
@@ -133,7 +126,37 @@ def CreateNote(request):
         }
         note1 = Note.objects.create(**note_data)
         note1.save()
-        return redirect(reverse('noter:home'))
+        return redirect(reverse(f'noter:home'))
+    
+@login_required
+def update(request, note_id):
+    note = Note.objects.get(id = note_id)
+    if request.method == 'POST':
+        u_name = request.POST.get('u_name')
+        if u_name:
+            note.title = u_name
+
+        u_description = request.POST.get('u_description')
+        if u_description:
+            note.description = u_description
+
+        u_start_at = request.POST.get('u_start_at')
+        if u_start_at:
+            note.start_at = datetime.strptime(u_start_at, '%Y-%m-%dT%H:%M')
+
+        u_end_at = request.POST.get('u_end_at')
+        if u_end_at:
+            note.end_at = datetime.strptime(u_end_at, '%Y-%m-%dT%H:%M')
+
+        u_deadline = request.POST.get('u_deadline')
+        if u_deadline:
+            note.deadline = datetime.strptime(u_deadline, '%Y-%m-%dT%H:%M')
+
+        u_list_id = request.POST.get('u_list_id')
+        if u_list_id:
+            note.list = List.objects.get(id = u_list_id)
+        note.save()
+        return redirect(f'noter:home')
 
 @login_required
 def do(request, note_id):
@@ -147,8 +170,8 @@ def do(request, note_id):
 def delete(request, note_id):
     note = Note.objects.get(id=note_id)
     if request.method == 'POST':
-       note.delete()
-    return redirect(f'noter:home')
+        note.delete()
+        return redirect(f'noter:home')
 
 @login_required
 def History(request):

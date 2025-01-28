@@ -508,14 +508,18 @@
     width: 29%;
     height: 100vh;
     background-color: #f4f4f4;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 .note_properties{
     position: relative; 
     height: 100%;
+    width: 100%;
     display: none;
 }
 .note_properties p{
     margin: 1vh;
+    width: 100%;
 }
 .note_properties h1{
     margin: 2vh 0vh 0vh 2vh;
@@ -525,7 +529,9 @@
     position: absolute;
     bottom: 2vh;
     left: 1vh;
+    width: 100%;
 }
 .note_properties_footer form{
-    margin: 0.5vh;
+    margin: 2vh;
+    width: 100%;
 }
