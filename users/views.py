@@ -60,4 +60,4 @@ def logout_view(request):
 
 @login_required
 def home_view(request):
-    return render(request, 'users/home.html', {'user': request.user})
+    return redirect('noter:home')
