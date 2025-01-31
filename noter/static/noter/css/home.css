@@ -358,6 +358,8 @@
     color: #3b3c3c;
     width: 100%;
     padding: 2vh;
+    display: flex;
+    align-items: center;
 }
 .main .list .list_text .list_text_number{
     width: 7vh;
@@ -510,6 +512,7 @@
     background-color: #f4f4f4;
     overflow-x: hidden;
     overflow-y: hidden;
+    border: 1px solid ba;
 }
 .note_properties{
     position: relative; 

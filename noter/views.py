@@ -31,7 +31,7 @@ def Home(request):
                 note.deadline = note.deadline.strftime('%Y-%m-%dT%H:%M')
             notes.append(note)
 
-    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes, 'list_id': list_id, 'today': today})
+    return render(request, 'noter/home.html', {'lists': lists, 'number_of_notes':len(notes), 'notes':notes, 'list_id': list_id, 'today': today, 'none': None})
     
 @login_required
 def Upcoming(request):
@@ -52,7 +52,7 @@ def Calendar(request):
 
 #list
 @login_required
-def CreateList(request):
+def CreateList(request, list_id):
     if request.method == 'POST':
         name = request.POST.get('list_name')
         color = request.POST.get('list_color')
@@ -67,16 +67,19 @@ def CreateList(request):
             return redirect('/noter/')
         list1 = List(name = name, color = color, user = request.user)
         list1.save()
+        if list_id!=0:
+            return redirect(reverse('noter:lists', args=[list_id]))
         return redirect('/noter/')
     
+
+#every list show view
 @login_required
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def ShowList(request, list_id):
     name = List.objects.get(id = list_id)
-    notes = Note.objects.filter(list = name)
-    done = notes.filter(status = True)
-    undone = notes.filter(status = False)
-    return render(request, 'noter/lists.html', {'done_notes': done,'undone_notes':undone, 'name': name, 'list_id':list_id})
+    notes = Note.objects.filter(list = name, status = False)
+    number_of_notes = notes.count()
+    ulists = List.objects.filter(user = request.user)
+    return render(request, 'noter/lists.html', {'done_notes': notes, 'name': name,'list_id':list_id, 'lists': ulists, 'number_of_notes': number_of_notes})
     
 #note
 @login_required
@@ -95,9 +98,9 @@ def CreateNote(request):
         if description_text:
             description = description_text
 
-        list_id = request.POST.get('select_input')
-        if list_id:
-            list1 = List.objects.get(id=list_id)
+        list_id2 = request.POST.get('select_input')
+        if list_id2:
+            list1 = List.objects.get(id=list_id2)
 
         datetime_str = request.POST.get('start_at')
         if datetime_str:
@@ -128,8 +131,67 @@ def CreateNote(request):
         note1.save()
         return redirect(reverse(f'noter:home'))
     
+
+
+
 @login_required
-def update(request, note_id):
+def CreateNoteList(request, list_id):
+    if request.method == 'POST':
+        title = request.POST.get('title_input')
+        create_at = datetime.now()
+        user = request.user
+        description = None
+        list1 = None
+        start_at = None
+        end_at = None
+        deadline_at = None
+
+        description_text = request.POST.get('description_input')
+        if description_text:
+            description = description_text
+
+        list1 = List.objects.get(id=list_id)
+
+        datetime_str = request.POST.get('start_at')
+        if datetime_str:
+            start_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+
+        datetime_str = request.POST.get('end_at')
+        if datetime_str:
+            end_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+        else:
+            end_at = datetime.now()
+
+        datetime_str = request.POST.get('deadline_at')
+        if datetime_str:
+            deadline_at = datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M')
+
+        note_data = {
+            "title": title,
+            "user": request.user,
+            "created_at": create_at,
+            "start_at": start_at,
+            "end_at": end_at,
+            "deadline": deadline_at,
+            "list": list1,
+            "user": user,
+            "description": description
+        }
+        note1 = Note.objects.create(**note_data)
+        note1.save()
+    return redirect(reverse('noter:lists', args=[list_id]))
+
+
+
+
+
+
+
+
+
+    
+@login_required
+def update(request, note_id, list_id):
     note = Note.objects.get(id = note_id)
     if request.method == 'POST':
         u_name = request.POST.get('u_name')
@@ -156,21 +218,27 @@ def update(request, note_id):
         if u_list_id:
             note.list = List.objects.get(id = u_list_id)
         note.save()
+        if list_id != 0:
+            return redirect(reverse('noter:lists', args=[list_id]))
         return redirect(f'noter:home')
 
 @login_required
-def do(request, note_id):
+def do(request, note_id, list_id):
     note = Note.objects.get(id=note_id)
     if request.method == 'POST':
         note.status = not note.status
         note.save()
+        if list_id != 0:
+            return redirect(reverse('noter:lists', args=[list_id]))
         return redirect(f'noter:home')
     
 @login_required
-def delete(request, note_id):
+def delete(request, note_id, list_id):
     note = Note.objects.get(id=note_id)
     if request.method == 'POST':
         note.delete()
+        if list_id != 0:
+            return redirect(reverse('noter:lists', args=[list_id]))
         return redirect(f'noter:home')
 
 @login_required

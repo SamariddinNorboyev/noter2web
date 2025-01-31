@@ -121,7 +121,7 @@
                     </div>
                     {% for note in notes %}
                         <div class="click_form_div" data-id="{{ note.id }}">
-                            <form action="{% url 'noter:do' note.id %}" method="post" class="list_main_note_form">
+                            <form action="{% url 'noter:do' note.id 0 %}" method="post" class="list_main_note_form">
                                 {% csrf_token %}
                                 <div class="list_main_note">
                                     <div class="list_main_note_top">
@@ -161,7 +161,7 @@
             {% for note in notes %}
                 <div class="note_properties" id="i{{note.id}}">
                     
-                    <form  method="post" action="{% url 'noter:update' note.id %}">
+                    <form  method="post" action="{% url 'noter:update' note.id 0 %}">
                         {% csrf_token %}
                         <h1>Task:</h1>
 
@@ -254,11 +254,11 @@
                             <input type="button" class="btn btn-warning" value="Save changes!" style="margin: 2vh 0vh 0vh 2vh;" onclick="this.form.submit()">
                     </form>
 
-                    <form action="{% url 'noter:delete' note.id %}" method="post" style="margin: 2vh;">
+                    <form action="{% url 'noter:delete' note.id 0 %}" method="post" style="margin: 2vh;">
                         {% csrf_token %}
                         <input type="button" onclick="this.form.submit()" class="btn btn-danger" value="Delete task!">
                     </form>    
-                    <form action="{% url 'noter:do' note.id %}" method="post" style="margin: 2vh;">
+                    <form action="{% url 'noter:do' note.id 0 %}" method="post" style="margin: 2vh;">
                         {% csrf_token %}
                         <input type="Button" onclick="this.form.submit()" value="Mark as done" class="btn btn-success">
                     </form>
@@ -267,7 +267,7 @@
         </div>
 
         <div class="add_list_toggle">
-            <form method="post" action="{% url 'noter:create-list' %}" id="list_form">
+            <form method="post" action="{% url 'noter:create-list' 0 %}" id="list_form">
                 {% csrf_token %}
                 <div class="colorSelectionOptionsBack" onclick="colorOpen()"></div>
                 <input type="text" name="list_name" placeholder="Enter List Name" class="submit_list_text">
@@ -470,6 +470,7 @@
         let elements = document.querySelectorAll('.click_form_div');
         elements.forEach((element) => {
             element.addEventListener('click', ()=>{
+                
                 id = element.getAttribute('data-id')
                 others = document.querySelectorAll('.note_properties')
                 others.forEach((other)=>{

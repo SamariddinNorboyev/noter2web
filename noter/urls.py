@@ -9,12 +9,13 @@ urlpatterns = [
     path('history/', views.History, name='history'),
 
 
-    path('create-list/', views.CreateList, name='create-list'),
+    path('create-list/<int:list_id>', views.CreateList, name='create-list'),
     path('lists/<int:list_id>/', views.ShowList, name='lists'),
 
 
     path('create-note/', views.CreateNote, name='create-note'),
-    path('do/<int:note_id>/', views.do, name='do'),
-    path('update/<int:note_id>/', views.update, name='update'),
-    path('delete/<int:note_id>/', views.delete, name='delete'),
+    path('create-note-list/<int:list_id>', views.CreateNoteList, name='create-note-list'),
+    path('do/<int:note_id>/<int:list_id>/', views.do, name='do'),
+    path('update/<int:note_id>/<int:list_id>/', views.update, name='update'),
+    path('delete/<int:note_id>/<int:list_id>/', views.delete, name='delete'),
 ]
