@@ -76,10 +76,21 @@ def CreateList(request, list_id):
 @login_required
 def ShowList(request, list_id):
     name = List.objects.get(id = list_id)
-    notes = Note.objects.filter(list = name, status = False)
-    number_of_notes = notes.count()
     ulists = List.objects.filter(user = request.user)
-    return render(request, 'noter/lists.html', {'done_notes': notes, 'name': name,'list_id':list_id, 'lists': ulists, 'number_of_notes': number_of_notes})
+    unotes = Note.objects.filter(user = request.user, list = name, status = False)
+    done_notes = []
+    today = date.today()
+    for note in unotes:
+        if note.end_at <= today and note.status == False:
+            if note.end_at:
+                note.end_at = note.end_at.strftime('%Y-%m-%dT%H:%M')
+            if note.start_at:
+                note.start_at = note.start_at.strftime('%Y-%m-%dT%H:%M')
+            if note.deadline:
+                note.deadline = note.deadline.strftime('%Y-%m-%dT%H:%M')
+            done_notes.append(note)
+    number_of_notes = len(done_notes)
+    return render(request, 'noter/lists.html', {'done_notes': done_notes, 'name': name,'list_id':list_id, 'lists': ulists, 'number_of_notes': number_of_notes})
     
 #note
 @login_required
