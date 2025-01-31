@@ -75,8 +75,15 @@
                 </div>
                 <div class="menu_tasks_buttons">
                     <div class="menu_list_button_overflow">
+                        <div class="menu_list_button_attribute" style="display: none;">{{list_id}}</div>
                         {% for list in lists %}
-                        <a class="menu_list_button " href="{% url 'noter:lists' list.id %}">
+                        <!-- <div class="menu_list_button"  data-id="i{{list.id}}">
+                            <a href="{% url 'noter:lists' list.id %}">
+                                <div class="bg-{{list.color}} i"></div>
+                                <div class="list_href_text">{{list.name}}</div>
+                            </a>
+                        </div> -->
+                        <a class="menu_list_button" href="{% url 'noter:lists' list.id %}">
                             <div class="bg-{{list.color}} i"></div>
                             <div class="list_href_text">{{list.name}}</div>
                         </a>
@@ -477,5 +484,20 @@
                 }
             })
         })
+        
+        
+        elementlar = document.querySelectorAll('.menu_list_button');
+        elementlar.forEach((element) => {
+            console.log(element)
+            // element.style.bacgroundColor = '#f4f4f4'
+            element.style.bacgroundColor = '#e2e2e2'
+            // a = document.querySelector('.menu_list_button_attribute')
+            // id = a.innerHTML
+            // if (element.getAttribute('data-id')==(`i${id}`)){
+                // element.style.bacgroundColor = '#e2e2e2'
+            // }
+        })
+        
+
     </script>
 {% endblock %}
