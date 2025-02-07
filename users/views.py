@@ -59,5 +59,5 @@ def logout_view(request):
     return redirect('users:login')
 
 @login_required
-def home_view(request):
+def home_view(request): 
     return redirect('noter:home')
