@@ -20,7 +20,7 @@
     </a>
 </div>
 
-<div class="history_footer">
+<div class="history_header">
     <h1>History</h1>
 </div>
 
@@ -28,7 +28,30 @@
 <div class="history_main">
     <div class="history_main_nav">
         {% for list in lists %}
-            {{list.name}}
+            <div class="list">
+                <div class="list_header">
+                    {% if list.name %}
+                        {{list.name}}
+                    {% else %}
+                        Today
+                    {% endif %}
+                </div>
+                <div class="list_main">
+                    {% for note in notes %}
+                        {% if note.list.name == list.name %}
+                            <form action="{% url 'noter:restore-note' note.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="list_main_note">
+                                    <input type="checkbox" id='i{{note.id}}' checked onchange="this.form.submit()">
+                                    <label for="i{{note.id}}" style="text-decoration: line-through;">
+                                        {{note.title}}
+                                    </label>
+                                </div>
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         {% endfor %}
     </div>
 </div>

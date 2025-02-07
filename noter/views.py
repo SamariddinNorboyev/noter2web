@@ -260,3 +260,11 @@ def History(request):
         if note.list not in lists:
             lists.append(note.list)
     return render(request, 'noter/history.html', {'lists':lists,'notes': notes})
+
+@login_required
+def Restore_note(reqeust, note_id):
+    if reqeust.method == 'POST':
+        note = Note.objects.get(id = note_id)
+        note.status = False
+        note.save()
+    return redirect(f'noter:history')

@@ -18,4 +18,5 @@ urlpatterns = [
     path('do/<int:note_id>/<int:list_id>/', views.do, name='do'),
     path('update/<int:note_id>/<int:list_id>/', views.update, name='update'),
     path('delete/<int:note_id>/<int:list_id>/', views.delete, name='delete'),
+    path('restore_note/<int:note_id>', views.Restore_note, name='restore-note'),
 ]

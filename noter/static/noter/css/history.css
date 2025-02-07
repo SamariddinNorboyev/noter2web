@@ -1,3 +1,6 @@
+body{
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+}
 .back_button{
     width: 5vh;
     height: 5vh;
@@ -28,15 +31,50 @@
 
 
 
-.history_footer{
+.history_header{
     width: 100%;
     height: 5vh;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
 .history_main{
     width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
+}
+.history_main_nav{
+    min-width: 60%;
+    max-width: 100%;
     border: 1px solid black;
+    display: flex;
+}
+.list{
+    width: 20vh;
+    border: 1px solid black;
+    margin: 1vh;
+    border-radius: 1vh;
+}
+.list_header{
+    width: 100%;
+    border: 1px solid black;
+    font-size: 2vh;
+    display: flex;
+    justify-content: center;
+    border-top-left-radius: 1vh;
+    border-top-right-radius: 1vh;
+}
+.list_main{
+    width: 100%;
+    border: 1px solid black;
+    border-bottom-right-radius: 1vh;
+    border-bottom-left-radius: 1vh;
+    height: 20vh;
+    overflow: auto;
+}
+.list_main_note{
+    margin: 0.5vh;
 }
