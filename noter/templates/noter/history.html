@@ -28,7 +28,7 @@
 <div class="history_main">
     <div class="history_main_nav">
         {% for list in lists %}
-            <div class="list">
+            <div class="list bg-{{list.color}}">
                 <div class="list_header">
                     {% if list.name %}
                         {{list.name}}
@@ -36,7 +36,7 @@
                         Today
                     {% endif %}
                 </div>
-                <div class="list_main">
+                <div class="list_main ">
                     {% for note in notes %}
                         {% if note.list.name == list.name %}
                             <form action="{% url 'noter:restore-note' note.id %}" method="post">
