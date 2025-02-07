@@ -254,4 +254,9 @@ def delete(request, note_id, list_id):
 
 @login_required
 def History(request):
-    return render(request, 'noter/history.html')
+    notes = Note.objects.filter(user = request.user, status = True)
+    lists = []
+    for note in notes:
+        if note.list not in lists:
+            lists.append(note.list)
+    return render(request, 'noter/history.html', {'lists':lists,'notes': notes})

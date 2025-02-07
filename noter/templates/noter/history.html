@@ -27,7 +27,9 @@
 
 <div class="history_main">
     <div class="history_main_nav">
-        
+        {% for list in lists %}
+            {{list.name}}
+        {% endfor %}
     </div>
 </div>
 
