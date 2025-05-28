@@ -62,5 +62,5 @@ def logout_view(request):
 def home_view(request): 
     return redirect('noter:home')
 
-def hello(request):
-    pass
+# def hello(request):
+#     pass
