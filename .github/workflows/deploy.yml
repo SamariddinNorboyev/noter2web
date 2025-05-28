@@ -1,4 +1,3 @@
-
 name: Deploy to Google App Engine
 
 on:
@@ -14,12 +13,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        project_id: vernal-zone-455911-n4               # ← Replace with your actual project ID
-        service_account_key: ${{ secrets.GCP_SA_KEY }} # ← Must be a valid JSON string
-        export_default_credentials: true               # ← REQUIRED to make gcloud commands work
+        project_id: vernal-zone-455911-n4               # ✅ Replace this with your actual Project ID
+        export_default_credentials: true          # ✅ Required for gcloud CLI to use the credentials
 
     - name: Deploy to App Engine
       run: |
