@@ -17,9 +17,9 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        project_id: vernal-zone-455911-n4
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+        project_id: vernal-zone-455911-n4                # ← Replace with your actual project ID
+        service_account_key: ${{ secrets.GCP_SA_KEY }} # ← Must be a valid JSON string
+        export_default_credentials: true               # ← REQUIRED to make gcloud commands work
 
     - name: Deploy to App Engine
       run: |
