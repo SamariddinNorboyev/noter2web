@@ -18,7 +18,7 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Pull latest changes on VM (SQLite Safe)
+    - name: Pull latest changes on VM
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
           cd noter2web &&
@@ -26,5 +26,5 @@ jobs:
           git pull origin main &&
           source env/bin/activate &&
           python3 manage.py migrate &&
-          sudo systemctl restart gunicorn
+          sudo /bin/systemctl restart gunicorn
         "
