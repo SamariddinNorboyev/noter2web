@@ -19,4 +19,4 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Pull latest changes on VM
-      run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd noter2web && git pull origin main && source env/bin/activate && python3 manage.py migrate && sudo systemctl restart gunicorn"
+      run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd noter2web && git reset --hard && git clean -fd && git pull origin main && source env/bin/activate && python3 manage.py migrate && sudo systemctl restart gunicorn"
