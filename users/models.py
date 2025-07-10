@@ -1,40 +1,22 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-# Create your models here.
+from django.utils import timezone
+from datetime import timedelta
 
-class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, theme_color=None):
-        if CustomUser.objects.filter(email=email).exists():
-            raise ValueError("A user with this email already exists.")
-        if CustomUser.objects.filter(username=username).exists():
-            raise ValueError("A user with this username already exists.")
-        email = self.normalize_email(email)
-        user = self.model(username=username, email=email, theme_color=theme_color)
-        user.set_password(password)
-        user.save()
-        return user
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
     
-    def create_superuser(self, username, email, password=None, theme_color=None):
-        user = self.create_user(username, email, password, theme_color)
-        user.theme_color = theme_color
-        user.is_superuser = True
-        user.is_staff = True
-        user.save()
-        return user
-    def get_by_natural_key(self, username):
-        return self.get(username=username)
-class CustomUser(AbstractBaseUser):
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    theme_color = models.CharField(max_length=20, default="blue", null=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-    objects = UserManager()
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
     def __str__(self):
         return self.username
-    def has_module_perms(self, app_label):
-        return True
-    def has_perm(self, perm, obj=None):
-        return True
+
+def default_expiry_time():
+    return timezone.now() + timedelta(seconds=35)
+
+class Code(models.Model):
+    code = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(default=default_expiry_time)
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
