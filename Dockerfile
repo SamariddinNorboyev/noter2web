@@ -1,18 +1,29 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# Use official slim Python base
+FROM python:3.11-slim
 
-# Set working directory inside container
+LABEL maintainer="samariddin"
+
+# Set working directory
 WORKDIR /app
 
-# Copy requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install OS dependencies for Python (required for psycopg2, Pillow, etc.)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy the rest of your project code
-COPY . .
+# Copy project files
+COPY . /app
 
-# Expose the port your app runs on
+# Install Python dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Expose port
 EXPOSE 8000
 
-# Command to run your app (change as per your project)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn noter2web.wsgi:application --bind 0.0.0.0:8000"]
